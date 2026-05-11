@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta
+      name="description"
+      content="Group and class timetable, member contributions, fun facts, group photo">
+    <meta
+      name="keywords"
+      content="HTML5,caption table, native language quotes, acknowledgment">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+      <meta name="author" content="Nusaiba Mohammed, 104649533">
+    <title>About - G02 Tiramisu</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <style>
+        /*Group photo styling with bordered figure */
+        .group-photo {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .group-photo img {
+            max-width: 60%;
+            border: 4px solid blue;
+            border-radius: 6px;
+        }
+
+        .group-photo figcaption {
+            margin-top: 8px;
+            font-style: italic;
+        }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <nav class="menu">
+          <!--  Logo Navbar: Following real-world practice even if WAVE says redundant links -->
+          <a href="index.html" id="logo-link">
+            <img src="images/navlogo1.png" alt="EcoCity Co. Logo">
+          </a>
+
+          <!-- Navbar Links to pages container -->
+          <div class="navlinks">
+            <a href="index.html" class="navlink">Home</a>
+            <a href="about.html" class="navlink">G02 Team</a>
+            <a href="jobs.html" class="navlink">Careers</a>
+            <a href="apply.html" class="navlink">Apply Now</a>
+          </div>
+        </nav>
+      </header>
+
+      <!-- Visual image of flags, unique ID for CSS of this image -->
+      <img
+        id="flag"
+        src="images/aborginalFlag.png"
+        alt="Aboriginal flags with Australian Flag">
+  <article>
+        <h1 class="acknowledge">Acknowledgment of Country</h1>
+        <!-- Acknowledgement of Country by Team -->
+        <aside id="statement">
+          <p>
+            We respectfully acknowledge the Wurundjeri People of the Kulin
+            Nation, who are the Traditional Owners of the land on which
+            Swinburne’s Australian campuses are located in Melbourne’s east and
+            outer-east, and pay our respect to their Elders past, present and
+            emerging. We are honoured to recognise our connection to Wurundjeri
+            Country, history, culture and spirituality through these locations,
+            and strive to ensure that we operate in a manner that respects and
+            honours the Elders and Ancestors of these lands. We also
+            respectfully acknowledge Swinburne’s Aboriginal and Torres Strait
+            Islander staff, students, alumni, partners and visitors. We also
+            acknowledge and respect the Traditional Owners of lands across
+            Australia, their Elders, Ancestors, cultures and heritage, and
+            recognise the continuing sovereignties of all Aboriginal and Torres
+            Strait Islander Nations.
+          </p>
+        </aside>
+        <!-- Section container for group details, member contribution, quotes and fun facts -->
+        <section class="group-simple">
+          <h2>Group Name: Tiramisu</h2>
+          <h3>Group Num: G02</h3>
+          <!-- Usage of semantic tags and nested list -->
+          <p><strong>Class Details:</strong></p>
+          <ul class="unorder">
+            <li>Day: Wednesday</li>
+            <li>Time: 2:30 pm</li>
+            <li>Group Member Number: 3</li>
+          </ul>
+
+          <p>
+            <strong>Purpose:</strong> Build Job portal for a Smart City
+            Infrastructure Consultancy called Eco City Co.
+          </p>
+
+          <hr>
+
+          <h4>The Wall of Member Contributions & Quotes</h4>
+          <!-- Definition List with <dt> <dd> for each member -->
+          <dl class="members">
+            <dt>
+              Member 1 - Nusaiba Mohammed, Student ID:
+              <span
+                style="
+                  color: #000000;
+                  background-color: #f3a806;
+                  font-weight: bold;
+                "
+                >104649533</span
+              >
+            </dt>
+            <dd>
+              <strong>Contribution:</strong>
+              <div class="contrib">
+                <span>jobs.html</span>
+                <span>about.html</span>
+                <span>styles.css</span>
+                <span>Jira Workspace Creation</span>
+                <span>Logo creation</span>
+                <span>GitHub Technical Support</span>
+                <span>Set up Navbar and footer</span>
+              </div>
+
+              <em>"অল্প বিদ্যা ভয়ঙ্করী"</em><br>
+              Translation: "A little learning is a dangerous thing."
+            </dd>
+
+            <dt>
+              Member 2 - Ruby Telford, Student ID:<span
+                style="
+                  color: #ffffff;
+                  background-color: #9900ff;
+                  font-weight: bold;
+                "
+                >105916092</span
+              >
+            </dt>
+            <dd>
+              <strong>Contribution:</strong>
+              <div class="contrib">
+                <span>apply.html</span>
+                <span>index.html</span>
+                <span>styles.css</span>
+                <span>GitHub Repository</span>
+                <span>Teams Meeting Chat</span>
+              </div>
+
+              <em
+                >"All our dreams can come true, if we have the courage to pursue
+                them."- Walt Disney</em
+              ><br>
+              Translation: "Our dreams can come true if we are brave enough to
+              try."
+            </dd>
+
+            <dt>
+              Member 3 - Harpreet Kour, Student ID:
+              <span
+                style="
+                  color: #000000;
+                  background-color: #f96565;
+                  font-weight: bold;
+                "
+                >106232058</span
+              >
+            </dt>
+            <dd>
+              <strong>Contribution:</strong>
+              <div class="contrib">
+                <span>Attend meeting</span>
+                <span>Join Jira</span>
+                <span>Link to GitHub</span>
+              </div>
+
+              <em>"ਹਮ ਨਹੀਂ ਚੰਗੇ ਬੁਰਾ ਨਹੀਂ ਕੋਇ"</em><br>
+              Translation: "I am not good; no one is bad."
+            </dd>
+          </dl>
+          <!-- Group Photo figure caption -->
+          <figure class="group-photo">
+            <img
+              src="images/G02Team.jpeg"
+              alt="Group photo"
+            >
+            <figcaption>G02 Team on Coding Interview Day</figcaption>
+          </figure>
+
+          <!-- Fun Facts Table -->
+          <table class="fun-facts">
+            <caption>
+              Fun Facts About Group Members
+            </caption>
+            <!-- Table Headers -->
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Interest Area</th>
+                <th>Coding Snack</th>
+                <th>Dream Travel Destination</th>
+              </tr>
+            </thead>
+            <!-- Row Data -->
+            <tbody>
+              <tr>
+                <td>Nusaiba Mohammed</td>
+                <td>Cloud & SDN Networking Security, SOC roles</td>
+                <td>Loukamades</td>
+                <td>Norway or Switzerland</td>
+              </tr>
+
+              <tr>
+                <td>Ruby Telford</td>
+                <td>Creating Personalised Things for Friends and Family</td>
+                <td>Pretzles</td>
+                <td>Europe</td>
+              </tr>
+
+              <tr>
+                <td>Harpreet Kour</td>
+                <td>Travelling</td>
+                <td>Egg wrap</td>
+                <td>India</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+  </article>
+      <footer>
+        <!-- Useful Project Management Links -->
+        <h2>Explore more</h2>
+        <nav>
+          <a
+            href="https://nusweek03webtechnologyproject.atlassian.net/jira/software/projects/DEV/boards/1/backlog?atlOrigin=eyJpIjoiZTU1Mjk3NWI3ZTU5NGEyNDgwNDE2NmI2NzgxNmI1MWMiLCJwIjoiaiJ9"
+            target="_blank"
+          >
+            <img
+              src="images/jira.png"
+              alt="Jira icon"
+              title="Go to G02 Tiramisu Jira workspace"
+            >Jira Project Space
+          </a>
+          <a
+            href="https://github.com/Ruby-Telford/COS10026-Wed_1430_G02_Tiramisu.git"
+            target="_blank"
+          >
+            <img
+              src="images/github.png"
+              alt="Github icon"
+              title="Go to G02 Github repo"
+            >Github Repository
+          </a>
+          <a href="mailto:questions@EcoCityco.org" target="_blank">
+            <img
+              src="images/email.png"
+              alt="Email icon"
+              title="Email EcoCity Co"
+            >Email us
+          </a>
+        </nav>
+      </footer>
+    </main>
+  </body>
+</html>
