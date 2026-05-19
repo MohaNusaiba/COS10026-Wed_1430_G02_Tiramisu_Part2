@@ -12,7 +12,7 @@
       <article>
         <h1>EcoCity Co Job Application Form</h1>
         <form
-          action="https://mercury.swin.edu.au/it000000/formtest.php"
+          action="process_eoi.php"
           method="post"
         >
           <fieldset>
@@ -170,7 +170,6 @@
                 name="skill[]"
                 value="iot"
                 id="iot"
-                required="required"
               />
               <label for="iot">Internet Of Things</label>
             </p>
@@ -225,7 +224,7 @@
               ></textarea>
             </p>
           </fieldset>
-          <input type="submit" value="Book" />
+          <input type="submit" value="Apply" />
           <input type="reset" value="Reset Form" />
         </form>
       </article>
