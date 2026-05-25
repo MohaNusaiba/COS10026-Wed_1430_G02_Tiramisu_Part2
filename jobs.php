@@ -1,5 +1,5 @@
 <?php
-  $title       = "Careers - EcoCsity Co.";
+  $title       = "Careers - EcoCity Co.";
   $description = "Job posting description, Essential and preferable requirements, Key responsibilities";
   $keywords    = "job vacancy, careers, job roles";
   $author      = "Nusaiba Mohammed, 104649533";

@@ -14,6 +14,10 @@
           <img src="images/email.png" alt="Email icon" title="Email EcoCity Co">
           Email us
         </a>
+        <a href="login.php">
+          <img src="images/staff_login.png" alt="Staff Login icon" title="Login to see EOIs and more.">
+          Staff Login
+        </a>
       </nav>
     </footer>
   </body>
