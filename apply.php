@@ -14,6 +14,7 @@
         <form
           action="process_eoi.php"
           method="post"
+          novalidate
         >
           <fieldset>
             <legend>Job Reference Number</legend>
@@ -22,10 +23,7 @@
                 type="text"
                 name="job_ref_num"
                 id="job_ref_num"
-                maxlength="5"
-                pattern="[A-Za-z0-9]{5}"
                 size="10"
-                required="required"
               />
             </p>
           </fieldset>
@@ -38,10 +36,7 @@
                 type="text"
                 name="first_name"
                 id="first_name"
-                maxlength="20"
-                pattern="[A-Za-z]{1,20}"
                 size="10"
-                required="required"
               />
             </p>
             <p>
@@ -50,10 +45,7 @@
                 type="text"
                 name="last_name"
                 id="last_name"
-                maxlength="20"
-                pattern="[A-Za-z]{1,20}"
                 size="10"
-                required="required"
               />
             </p>
             <p>
@@ -62,9 +54,7 @@
                 type="text"
                 name="dob"
                 id="dob"
-                pattern="\d{2}/\d{2}/\d{4}"
                 placeholder="dd/mm/yyyy"
-                required="required"
               />
             </p>
             <fieldset>
@@ -75,7 +65,6 @@
                 id="female"
                 name="gender"
                 value="female"
-                required="required"
               />
               &emsp;
               <label for="male">Male</label>
@@ -94,9 +83,7 @@
                 type="text"
                 name="street_address"
                 id="street_address"
-                maxlength="50"
                 size="10"
-                required="required"
               />
             </p>
             <p>
@@ -105,23 +92,21 @@
                 type="text"
                 name="suburb_town"
                 id="suburb_town"
-                maxlength="40"
                 size="10"
-                required="required"
               />
             </p>
             <p>
               <label for="state">State</label>
-              <select name="state" id="state" required="required">
+              <select name="state" id="state">
                 <option value="">Please Select</option>
-                <option value="vic">VIC</option>
-                <option value="nsw">NSW</option>
-                <option value="qld">QLD</option>
-                <option value="nt">NT</option>
-                <option value="wa">WA</option>
-                <option value="sa">SA</option>
-                <option value="tas">TAS</option>
-                <option value="act">ACT</option>
+                <option value="VIC">VIC</option>
+                <option value="NSW">NSW</option>
+                <option value="QLD">QLD</option>
+                <option value="NT">NT</option>
+                <option value="WA">WA</option>
+                <option value="SA">SA</option>
+                <option value="TAS">TAS</option>
+                <option value="ACT">ACT</option>
               </select>
             </p>
             <p>
@@ -130,10 +115,8 @@
                 type="text"
                 name="postcode"
                 id="postcode"
-                maxlength="4"
-                pattern="\d{4}"
                 size="10"
-                required="required"
+
               />
             </p>
           </fieldset>
@@ -142,11 +125,10 @@
             <p>
               <label for="email">Email</label>
               <input
-                type="email"
+                type="text"
                 name="email"
                 id="email"
                 size="10"
-                required="required"
               />
             </p>
             <p>
@@ -155,10 +137,7 @@
                 type="text"
                 name="phone"
                 id="phone"
-                maxlength="12"
-                pattern="\d{8,12}"
                 size="10"
-                required="required"
               />
             </p>
           </fieldset>
