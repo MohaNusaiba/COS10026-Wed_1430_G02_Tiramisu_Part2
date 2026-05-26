@@ -70,102 +70,93 @@
           </p>
 
           <hr>
+<h4>The Wall of Member Contributions & Quotes</h4>
 
-          <h4>The Wall of Member Contributions & Quotes</h4>
-          <!-- Definition List with <dt> <dd> for each member -->
-          <dl class="members">
-            <dt>
-              Member 1 - Nusaiba Mohammed, Student ID:
-              <span style="color: #000000; background-color: #f3a806; font-weight: bold;">104649533</span>
-            </dt>
-            <dd>
-              <strong>Contribution:</strong>
-              <div class="contrib">
-                <span>jobs.html</span>
-                <span>about.html</span>
-                <span>styles.css</span>
-                <span>Jira Workspace Creation</span>
-                <span>Logo creation</span>
-                <span>GitHub Technical Support</span>
-                <span>Set up Navbar and footer</span>
-              </div>
-              <em>"অল্প বিদ্যা ভয়ঙ্করী"</em><br>
-              Translation: "A little learning is a dangerous thing."
-            </dd>
+<?php
+require_once("settings.php");
 
-            <dt>
-              Member 2 - Ruby Telford, Student ID:
-              <span style="color: #ffffff; background-color: #9900ff; font-weight: bold;">105916092</span>
-            </dt>
-            <dd>
-              <strong>Contribution:</strong>
-              <div class="contrib">
-                <span>apply.html</span>
-                <span>index.html</span>
-                <span>styles.css</span>
-                <span>GitHub Repository</span>
-                <span>Teams Meeting Chat</span>
-              </div>
-              <em>"All our dreams can come true, if we have the courage to pursue them." - Walt Disney</em><br>
-              Translation: "Our dreams can come true if we are brave enough to try."
-            </dd>
+$conn = @mysqli_connect($host, $user, $pwd, $sql_db);
 
-            <dt>
-              Member 3 - Harpreet Kour, Student ID:
-              <span style="color: #000000; background-color: #f96565; font-weight: bold;">106232058</span>
-            </dt>
-            <dd>
-              <strong>Contribution:</strong>
-              <div class="contrib">
-                <span>Attend meeting</span>
-                <span>Join Jira</span>
-                <span>Link to GitHub</span>
-              </div>
-              <em>"ਹਮ ਨਹੀਂ ਚੰਗੇ ਬੁਰਾ ਨਹੀਂ ਕੋਇ"</em><br>
-              Translation: "I am not good; no one is bad."
-            </dd>
-          </dl>
+if (!$conn) {
+    echo "<p>Database connection failed.</p>";
+} else {
+    $query = "SELECT * FROM about ORDER BY member_id";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        echo "<dl class='members'>";
+
+        while ($member = mysqli_fetch_assoc($result)) {
+            $member_id = $member["member_id"];
+
+            if ($member_id == 1) {
+                $text_colour = "#000000";
+                $background_colour = "#f3a806";
+            } elseif ($member_id == 2) {
+                $text_colour = "#ffffff";
+                $background_colour = "#9900ff";
+            } else {
+                $text_colour = "#000000";
+                $background_colour = "#f96565";
+            }
+
+            echo "<dt>";
+            echo "Member " . htmlspecialchars($member_id) . " - ";
+            echo htmlspecialchars($member["member_name"]) . ", Student ID: ";
+            echo "<span style='color: " . $text_colour . "; background-color: " . $background_colour . "; font-weight: bold;'>";
+            echo htmlspecialchars($member["student_id"]);
+            echo "</span>";
+            echo "</dt>";
+
+            echo "<dd>";
+
+            echo "<strong>Part 1 Contribution:</strong>";
+            echo "<div class='contrib'>";
+
+            $part1_items = explode(",", $member["project1_contribution"]);
+
+            foreach ($part1_items as $item) {
+                echo "<span>" . htmlspecialchars(trim($item)) . "</span>";
+            }
+
+            echo "</div>";
+
+            echo "<strong>Part 2 Contribution:</strong>";
+            echo "<div class='contrib'>";
+
+            $part2_items = explode(",", $member["project2_contribution"]);
+
+            foreach ($part2_items as $item) {
+                echo "<span>" . htmlspecialchars(trim($item)) . "</span>";
+            }
+
+            echo "</div>";
+
+            echo "<em>\"" . htmlspecialchars($member["quote"]) . "\"</em><br>";
+            echo "Translation: \"" . htmlspecialchars($member["quote_translation"]) . "\"";
+
+            echo "<br><br>";
+            echo "<strong>Interest Area:</strong> " . htmlspecialchars($member["interest_area"]) . "<br>";
+            echo "<strong>Coding Snack:</strong> " . htmlspecialchars($member["coding_snack"]) . "<br>";
+            echo "<strong>Dream Travel Destination:</strong> " . htmlspecialchars($member["dream_travel"]);
+
+            echo "</dd>";
+        }
+
+        echo "</dl>";
+    } else {
+        echo "<p>No member contribution records found.</p>";
+    }
+
+    mysqli_close($conn);
+}
+?>
 
           <!-- Group Photo figure caption -->
           <figure class="group-photo">
             <img src="images/G02Team.jpeg" alt="Group photo">
             <figcaption>G02 Team on Coding Interview Day</figcaption>
           </figure>
-
-          <!-- Fun Facts Table -->
-          <table class="fun-facts">
-            <caption>Fun Facts About Group Members</caption>
-            <!-- Table Headers -->
-            <thead>
-              <tr>
-                <th>Member</th>
-                <th>Interest Area</th>
-                <th>Coding Snack</th>
-                <th>Dream Travel Destination</th>
-              </tr>
-            </thead>
-            <!-- Row Data -->
-            <tbody>
-              <tr>
-                <td>Nusaiba Mohammed</td>
-                <td>Cloud & SDN Networking Security, SOC roles</td>
-                <td>Loukamades</td>
-                <td>Norway or Switzerland</td>
-              </tr>
-              <tr>
-                <td>Ruby Telford</td>
-                <td>Creating Personalised Things for Friends and Family</td>
-                <td>Pretzles</td>
-                <td>Europe</td>
-              </tr>
-              <tr>
-                <td>Harpreet Kour</td>
-                <td>Travelling</td>
-                <td>Egg wrap</td>
-                <td>India</td>
-              </tr>
-            </tbody>
-          </table>
         </section>
       </article>
     </main>
