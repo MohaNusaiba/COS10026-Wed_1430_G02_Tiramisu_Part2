@@ -6,291 +6,242 @@
   $pageCSS     = "";
 ?>
 <?php include 'header.inc'; ?>
+<?php include 'settings.php'; ?>
 <style>
-          .job aside {
-          float:right;
-          width: 25%;
-          margin-right: 1.0em;
-          padding: 0 0.5em 0 0.5em;
-          border: 1px dotted black;
-          border-radius: 10px;
-          color: black;
-          background-color: rgb(193, 255, 193);
-          font-size: 14px;
-          font-style: italic;
-          font-weight: bold;
-          box-shadow: 2px 5px 10px rgba(133, 255, 52, 0.7); 
-      }
-
-      .job aside:hover {
-          transform: scale(1.1);
-      }
+  .job aside {
+    float: right;
+    width: 25%;
+    margin-right: 1.0em;
+    padding: 0 0.5em 0 0.5em;
+    border: 1px dotted black;
+    border-radius: 10px;
+    color: black;
+    background-color: rgb(193, 255, 193);
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    box-shadow: 2px 5px 10px rgba(133, 255, 52, 0.7);
+  }
+  .job aside:hover { transform: scale(1.1); }
+ 
+  .search-bar {
+    display: flex;
+    gap: 10px;
+    margin: 1.5rem 0;
+    align-items: center;
+  }
+  .search-bar input {
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 300px;
+  }
+  .search-bar button {
+    padding: 8px 20px;
+    background: #0c5401;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .search-bar button:hover { background: #094001; }
+  .search-bar a {
+    font-size: 13px;
+    color: #0c5401;
+    text-decoration: none;
+    padding: 8px 12px;
+  }
+  .search-bar a:hover { text-decoration: underline; }
+  .results-count {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  .no-results {
+    padding: 2rem;
+    text-align: center;
+    color: #666;
+    font-size: 15px;
+  }
 </style>
-    <main>
-      <!-- Section for all job Pictures and link to Job Posting Info -->
-      <section class="jobCards">
-        <h1 class="jobsTitle" style="text-align: center; padding: 0;color:#0c5401; font-style:italic;">Jobs at Eco City Co.</h1>
-        <p>
-          At EcoCity Co., we work with councils and industry partners to deliver
-          smart, sustainable urban solutions that make a real impact. We value
-          innovation, collaboration, and continuous learning, and provide
-          opportunities to work on meaningful projects that shape the future of
-          cities while supporting your professional growth.
-        </p>
-        <div id="card-area">
-          <div class="wrapper">
-            <div class="box-area">
-              <div class="box">
-                <img
-                  alt="Two professionals analysing code and data on multiple computer screens in an office environment"
-                  src="images/analyst.png">
-                <div class="overlay">
-                  <h2>Smart Transport Systems Analyst</h2>
-                  <p>Drive smarter mobility solutions for connected cities.</p>
-                  <a href="#systemAnalyst">View Job</a>
-                </div>
-              </div>
-              <div class="box">
-                <img
-                  alt="Engineers in safety helmets reviewing plans on a construction site for infrastructure development"
-                  src="images/engineer.jpg">
-                <div class="overlay">
-                  <h3>Energy Monitoring Solutions Engineer</h3>
-                  <p>
-                    Power urban sustainability with innovative energy insights.
-                  </p>
-                  <a href="#engineer">View Job</a>
-                </div>
-              </div>
-              <div class="box">
-                <img
-                  alt="Professional presenting data charts and graphs on a board during a business analysis meeting"
-                  src="images/manager.jpg">
-                <div class="overlay">
-                  <h3>Smart City Project Manager</h3>
-                  <p>Lead projects that transform cities for the future.</p>
-                  <a href="#projManager">View Job</a>
-                </div>
-              </div>
-              <div class="box">
-                <img
-                  alt="Confident business consultant standing in a modern office with arms crossed"
-                  src="images/HRjob.jpg">
-                <div class="overlay">
-                  <h3>Human Resources & Talent Specialist</h3>
-                  <p>Build the teams that make smart cities happen.</p>
-                  <a href="#hresources">View Job</a>
-                </div>
-              </div>
+ 
+<?php
+// DB connection
+$conn = mysqli_connect($host, $user, $pwd, $sql_db);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+ 
+// Get search term
+$search = trim($_GET['search'] ?? '');
+ 
+// Build query — search across title, and reference
+if (!empty($search)) {
+    $stmt = mysqli_prepare($conn, 
+        "SELECT * FROM jobs 
+         WHERE title LIKE ? OR reference LIKE ?
+         ORDER BY id ASC");
+    $like = "%" . $search . "%";
+    mysqli_stmt_bind_param($stmt, "ss", $like, $like);
+} else {
+    $stmt = mysqli_prepare($conn, "SELECT * FROM jobs ORDER BY id ASC");
+}
+ 
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$jobs   = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$total  = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM jobs"));
+?>
+ 
+<main>
+  <!-- Job thumbnails section -->
+  <section class="jobCards">
+    <h1 class="jobsTitle" style="text-align:center; padding:0; color:#0c5401; font-style:italic;">
+      Jobs at Eco City Co.
+    </h1>
+    <p>
+      At EcoCity Co., we work with councils and industry partners to deliver
+      smart, sustainable urban solutions that make a real impact. We value
+      innovation, collaboration, and continuous learning, and provide
+      opportunities to work on meaningful projects that shape the future of
+      cities while supporting your professional growth.
+    </p>
+    <div id="card-area">
+      <div class="wrapper">
+        <div class="box-area">
+          <div class="box">
+            <img alt="Two professionals analysing code and data on multiple computer screens in an office environment" src="images/analyst.png">
+            <div class="overlay">
+              <h2>Smart Transport Systems Analyst</h2>
+              <p>Drive smarter mobility solutions for connected cities.</p>
+              <a href="jobs.php?search=transport">View Jobs</a>
+            </div>
+          </div>
+          <div class="box">
+            <img alt="Engineers in safety helmets reviewing plans on a construction site for infrastructure development" src="images/engineer.jpg">
+            <div class="overlay">
+              <h3>Energy Monitoring Solutions Engineer</h3>
+              <p>Power urban sustainability with innovative energy insights.</p>
+              <a href="jobs.php?search=energy">View Jobs</a>
+            </div>
+          </div>
+          <div class="box">
+            <img alt="Professional presenting data charts and graphs on a board during a business analysis meeting" src="images/manager.jpg">
+            <div class="overlay">
+              <h3>Smart City Project Manager</h3>
+              <p>Lead projects that transform cities for the future.</p>
+              <a href="jobs.php?search=manager">View Jobs</a>
+            </div>
+          </div>
+          <div class="box">
+            <img alt="Confident business consultant standing in a modern office with arms crossed" src="images/HRjob.jpg">
+            <div class="overlay">
+              <h3>Human Resources & Talent Specialist</h3>
+              <p>Build the teams that make smart cities happen.</p>
+              <a href="jobs.php?search=human+resources">View Jobs</a>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+ 
+  <section>
+    <h1 id="careers">Current Opportunities</h1>
+ 
+    <!-- Search Bar -->
+    <form method="get" action="jobs.php" class="search-bar">
+      <input 
+        type="text" 
+        name="search" 
+        placeholder="Search jobs by title or reference..."
+        value="<?php echo htmlspecialchars($search); ?>">
+      <button type="submit">Search</button>
+      <?php if (!empty($search)): ?>
+        <a href="jobs.php">Clear</a>
+      <?php endif; ?>
+    </form>
+ 
+    <!-- Results count -->
+    <p class="results-count">
+      <?php if (!empty($search)): ?>
+        Showing <?php echo count($jobs); ?> of <?php echo $total; ?> jobs for 
+        "<strong><?php echo htmlspecialchars($search); ?></strong>"
+      <?php else: ?>
+        Showing all <?php echo count($jobs); ?> jobs
+      <?php endif; ?>
+    </p>
+ 
+    <?php if (empty($jobs)): ?>
+      <p class="no-results">
+        No jobs found for "<?php echo htmlspecialchars($search); ?>". 
+        Try a different keyword or <a href="jobs.php">view all jobs</a>.
+      </p>
+    <?php else: ?>
+ 
+      <?php foreach ($jobs as $job): ?>
+      <section class="job" id="<?php echo htmlspecialchars($job['reference']); ?>">
+ 
+        <aside>
+          <p><?php echo htmlspecialchars($job['additional_info']); ?></p>
+        </aside>
+ 
+        <h2>Reference: <?php echo htmlspecialchars($job['reference']); ?></h2>
+        <h3><?php echo htmlspecialchars($job['title']); ?></h3>
+ 
+        <p class="job-desc">
+          <?php 
+            // preserve line breaks from DB
+            echo nl2br(htmlspecialchars($job['description'])); 
+          ?>
+        </p>
+ 
+        <p><strong>Salary:</strong> <?php echo htmlspecialchars($job['salary_range']); ?></p>
+        <p><strong>Reports to:</strong> <?php echo htmlspecialchars($job['reports_to']); ?></p>
+ 
+        <details>
+          <summary>Key Responsibilities</summary>
+          <ul>
+            <?php foreach (explode("\n", $job['responsibilities']) as $item): ?>
+              <?php if (trim($item)): ?>
+                <li><?php echo htmlspecialchars(trim($item)); ?></li>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </ul>
+        </details>
+ 
+        <details>
+          <summary>Essential Requirements</summary>
+          <ol>
+            <?php foreach (explode("\n", $job['requirements']) as $item): ?>
+              <?php if (trim($item)): ?>
+                <li><?php echo htmlspecialchars(trim($item)); ?></li>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </ol>
+        </details>
+ 
+        <details>
+          <summary>Preferable Skills</summary>
+          <ul>
+            <?php foreach (explode("\n", $job['preferable_skills']) as $item): ?>
+              <?php if (trim($item)): ?>
+                <li><?php echo htmlspecialchars(trim($item)); ?></li>
+              <?php endif; ?>
+            <?php endforeach; ?>
+          </ul>
+        </details>
+ 
       </section>
-
-      <section>
-        <h1 id="careers">Current Opportunities</h1>
-
-        <!-- Job 1 -->
-        <section class="job" id="systemAnalyst">
-          <aside>
-            <p>
-              Quaterly: May require site visits and collaboration with local
-              councils.
-            </p>
-          </aside>
-
-          <h2>Reference: SC123</h2>
-          <h3>Smart Transport Systems Analyst</h3>
-          <p class="job-desc">
-            Design and optimise intelligent transport systems using real-time
-            data and digital platforms to improve urban mobility outcomes.
-            <br>We welcome and encourage applications from Aboriginal and
-            Torres Strait Islander peoples, as well as individuals from all
-            cultural and diverse backgrounds.
-          </p>
-
-          <p><strong>Salary:</strong> $95,000 – $115,000 AUD</p>
-          <p><strong>Reports to:</strong> Senior Infrastructure Manager</p>
-
-          <details>
-            <summary>Key Responsibilities</summary>
-            <ul>
-              <li>
-                Analyse transport data from IoT sensors and traffic systems
-              </li>
-              <li>
-                Develop models to improve traffic flow and reduce congestion
-              </li>
-              <li>Collaborate with councils on smart mobility strategies</li>
-              <li>Support deployment of integrated transport platforms</li>
-            </ul>
-          </details>
-
-          <details>
-            <summary>Essential Requirements</summary>
-            <ol>
-              <li>Bachelor’s degree in Engineering, IT, or related field</li>
-              <li>Experience with data analytics and transport systems</li>
-              <li>Proficiency in Python or similar tools</li>
-            </ol>
-          </details>
-
-          <details>
-            <summary>Preferable Skills</summary>
-            <ul>
-              <li>Experience in smart city or government projects</li>
-              <li>Knowledge of GIS platforms</li>
-              <li>Strong stakeholder communication skills</li>
-            </ul>
-          </details>
-        </section>
-
-        <!-- Job 2 -->
-        <section class="job" id="engineer">
-          <aside>
-            <p>Relocation: Company accomodation available at site.</p>
-          </aside>
-
-          <h2>Reference: EN456</h2>
-          <h3>Energy Monitoring Solutions Engineer</h3>
-          <p class="job-desc">
-            Develop and implement digital energy monitoring platforms to enhance
-            sustainability and efficiency across urban infrastructure.
-            <br>We welcome and encourage applications from Aboriginal and
-            Torres Strait Islander peoples, as well as individuals from all
-            cultural and diverse backgrounds.
-          </p>
-
-          <p><strong>Salary:</strong> $105,000 – $130,000 AUD</p>
-          <p><strong>Reports to:</strong> Head of Smart Energy Solutions</p>
-
-          <details>
-            <summary>Key Responsibilities</summary>
-            <ul>
-              <li>Design energy monitoring dashboards and reporting tools</li>
-              <li>Integrate IoT devices for real-time energy tracking</li>
-              <li>
-                Work with stakeholders to identify optimisation opportunities
-              </li>
-              <li>Ensure compliance with energy regulations</li>
-            </ul>
-          </details>
-
-          <details>
-            <summary>Essential Requirements</summary>
-            <ol>
-              <li>Degree in Electrical Engineering or similar</li>
-              <li>Experience with IoT platforms and cloud systems</li>
-              <li>Strong analytical skills</li>
-            </ol>
-          </details>
-
-          <details>
-            <summary>Preferable Skills</summary>
-            <ul>
-              <li>Renewable energy project experience</li>
-              <li>Data visualisation tools knowledge</li>
-              <li>Understanding of smart grids</li>
-            </ul>
-          </details>
-        </section>
-
-        <!-- Job 3 -->
-        <section class="job" id="projManager">
-          <aside>
-            <p>Paid certification and promotion opportunities open.</p>
-          </aside>
-
-          <h2>Reference: PM789</h2>
-          <h3>Smart City Project Manager</h3>
-          <p class="job-desc">
-            Lead and coordinate smart city initiatives, ensuring successful
-            delivery across multiple stakeholders.
-            <br>We welcome and encourage applications from Aboriginal and
-            Torres Strait Islander peoples, as well as individuals from all
-            cultural and diverse backgrounds.
-          </p>
-
-          <p><strong>Salary:</strong> $110,000 – $125,000 AUD</p>
-          <p><strong>Reports to:</strong> Director of Operations</p>
-
-          <details>
-            <summary>Key Responsibilities</summary>
-            <ul>
-              <li>Manage project timelines, budgets, and risks</li>
-              <li>Coordinate cross-functional teams</li>
-              <li>Liaise with councils and partners</li>
-              <li>Ensure project governance standards are met</li>
-            </ul>
-          </details>
-
-          <details>
-            <summary>Essential Requirements</summary>
-            <ol>
-              <li>Degree in Project Management or related field</li>
-              <li>Experience managing complex projects</li>
-              <li>Strong leadership skills</li>
-            </ol>
-          </details>
-
-          <details>
-            <summary>Preferable Skills</summary>
-            <ul>
-              <li>PRINCE2 or PMP certification</li>
-              <li>Experience in infrastructure or government projects</li>
-              <li>Agile methodology knowledge</li>
-            </ul>
-          </details>
-        </section>
-
-        <!-- Job 4 -->
-        <section class="job" id="hresources">
-          <aside>
-            <p>This position is also open to entry level Legal Assistants.</p>
-          </aside>
-
-          <h2>Reference: HR654</h2>
-          <h3>Human Resources & Talent Specialist</h3>
-          <p class="job-desc">
-            Support recruitment, employee engagement, and HR operations in a
-            dynamic consultancy environment.
-            <br>We welcome and encourage applications from Aboriginal and
-            Torres Strait Islander peoples, as well as individuals from all
-            cultural and diverse backgrounds.
-          </p>
-
-          <p><strong>Salary:</strong> $85,000 – $100,000 AUD</p>
-          <p><strong>Reports to:</strong> Head of People & Culture</p>
-
-          <details>
-            <summary>Key Responsibilities</summary>
-            <ul>
-              <li>Manage recruitment and onboarding processes</li>
-              <li>Develop engagement and training programs</li>
-              <li>Ensure HR compliance and policies</li>
-              <li>Support performance management</li>
-            </ul>
-          </details>
-
-          <details>
-            <summary>Essential Requirements</summary>
-            <ol>
-              <li>Degree in Human Resources or related field</li>
-              <li>Experience in recruitment and employee relations</li>
-              <li>Strong interpersonal skills</li>
-            </ol>
-          </details>
-
-          <details>
-            <summary>Preferable Skills</summary>
-            <ul>
-              <li>Experience in consultancy or tech sector</li>
-              <li>Knowledge of HR systems</li>
-              <li>Interest in workplace culture development</li>
-            </ul>
-          </details>
-        </section>
-      </section>
-    </main>
-
-<?php include 'footer.inc'; ?>
+      <?php endforeach; ?>
+ 
+    <?php endif; ?>
+  </section>
+</main>
+ 
+<?php 
+  mysqli_close($conn);
+  include 'footer.inc'; 
+?>
