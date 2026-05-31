@@ -1,0 +1,361 @@
+/*
+ * jobs.css
+ * Page-specific styles for jobs.php and search.php.
+ * Handles the thumbnail card grid with hover overlays,
+ * job listing sections and expandable accordion details.
+ * Both pages link this file for consistent visual styling.
+ */
+
+/* ── Job Cards Section ───────────────────────────────
+   Introductory paragraph above the card grid */
+.jobCards p {
+    text-align: center;
+    padding: 0;
+    color: #062b00;
+}
+
+/* Card grid wrapper - light blue gradient background
+   gives the cards section visual separation from the page */
+.wrapper {
+    padding: 0 5%;
+    background: linear-gradient(transparent, #daefff 58%);
+}
+
+#card-area {
+    padding: 0;
+}
+
+/* ── Card Grid ───────────────────────────────────────
+   CSS grid with auto-fit so cards fill the row automatically
+   minmax(210px, 1fr) means each card is at least 210px wide */
+.box-area {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-gap: 20px;
+    margin-top: 50px;
+}
+
+/* ── Individual Card ─────────────────────────────────
+   Rounded card with green glow shadow
+   overflow: hidden clips the overlay to the card's border radius
+   position: relative is required for the absolute overlay child */
+.box {
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 5px 5px 15px rgba(1, 189, 29, 0.7);
+}
+
+/* Card image - scales up on hover via transform in .box:hover img */
+.box img {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+    transition: transform 0.5s;
+}
+
+/* ── Hover Overlay ───────────────────────────────────
+   Dark gradient overlay that slides up from the bottom on hover
+   height starts at 0 and transitions to 100% on hover
+   position: absolute fills the card, bottom: 0 anchors it */
+.overlay {
+    width: 100%;
+    height: 0;
+    background: linear-gradient(transparent, #1c1c1c 58%);
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    font-size: 14px;
+    transition: height 0.5s;
+}
+
+/* Overlay headings - white background pill for readability
+   Combined selector fixes h2 and h3 having the same style */
+.overlay h2,
+.overlay h3 {
+    font-weight: 900;
+    margin: 5% 0 2px 0;
+    font-size: 17px;
+    letter-spacing: 2px;
+    color: blue;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 6px;
+}
+
+/* Overlay description text - bright green for contrast on dark background */
+.overlay p {
+    margin: 0;
+    padding: 0;
+    color: #00ff0d;
+}
+
+/* Overlay link - white pill button */
+.overlay a {
+    margin-top: 10px;
+    color: #262626;
+    text-decoration: none;
+    font-size: 14px;
+    background: #fff;
+    border-radius: 50px;
+    text-align: center;
+    padding: 5px 15px;
+}
+
+/* Hover interactions - image scales, overlay rises to full height */
+.box:hover img     { transform: scale(1.1); }
+.box:hover .overlay { height: 100%; }
+
+/* ── Current Opportunities Heading ───────────────────
+   Section heading with bottom border and green glow shadow */
+#careers {
+    text-align: center;
+    margin-top: 0.7em;
+    padding: 0.5em 0 0.2em 0;
+    border-bottom: 1px solid rgb(2, 35, 66);
+    box-shadow: 5px 5px 15px rgba(1, 189, 29, 0.3);
+}
+
+/* ── Job Listing Card ────────────────────────────────
+   White-blue card for each individual job listing
+   Centred on page with shadow for depth */
+.job {
+    background: #f8fbff;
+    padding: 20px;
+    margin: 20px auto 30px;
+    border-radius: 10px;
+    width: 90%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: #222;
+}
+
+/* Job description paragraph spacing */
+.job-desc {
+    margin-bottom: 10px;
+}
+
+/* Job title h3 - light blue background pill
+   width: 15% keeps it compact as a reference/badge style */
+.job h3 {
+    background-color: #c1d9f8;
+    width: 15%;
+    padding-left: 0.3em;
+}
+
+/* ── Accordion (details/summary) ─────────────────────
+   Native HTML5 expandable sections - no JavaScript needed
+   Border and overflow: hidden give it a card-like appearance */
+.job details {
+    margin-top: 10px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+}
+
+/* Summary tab - clickable header with blue gradient
+   list-style: none removes the default disclosure triangle */
+.job summary {
+    padding: 10px;
+    background: linear-gradient(to right, #05368f, #2a57aa 90%);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none;
+}
+
+/* Hover on summary tab - green gradient for interactivity */
+.job summary:hover {
+    background: linear-gradient(to right, #49be0e, #05368f 90%);
+}
+
+/* Remove webkit default arrow on summary */
+.job summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Content inside open accordion - white background with padding */
+.job details ul,
+.job details ol {
+    padding: 25px;
+    margin: 0;
+    background: #ffffff;
+    color: #222;
+}
+
+/* ── Search Bar ──────────────────────────────────────
+   Used on search.php - flex row keeping input and button aligned */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin: 1.5rem 0;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Search text input */
+.search-bar input {
+    padding: 8px 14px;
+    border: 1.5px solid #0c5401;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 300px;
+    outline: none;
+    transition: box-shadow 0.2s ease;
+}
+
+/* Focus ring on search input */
+.search-bar input:focus {
+    box-shadow: 0 0 0 3px rgba(12, 84, 1, 0.15);
+}
+
+/* Search submit button - brand green */
+.search-bar button {
+    padding: 8px 20px;
+    background: #0c5401;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.search-bar button:hover { background: #094001; }
+
+/* Clear link - only shown when search is active */
+.search-bar a {
+    font-size: 13px;
+    color: #0c5401;
+    text-decoration: none;
+    padding: 8px 12px;
+}
+
+.search-bar a:hover { text-decoration: underline; }
+
+/* Results count line */
+.results-count {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+/* No results message - centred and muted */
+.no-results {
+    padding: 2rem;
+    text-align: center;
+    color: #666;
+    font-size: 15px;
+}
+
+/* ── Responsive: Tablet (≤ 768px) ───────────────────
+   Cards reduce to 2 columns, aside stops floating */
+@media (max-width: 768px) {
+
+    /* 2 column card grid on tablet */
+    .box-area {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 14px;
+        margin-top: 30px;
+    }
+
+    /* Aside stacks above job content instead of floating right */
+    .job aside {
+        float: none;
+        width: 100%;
+        margin: 0 0 14px 0;
+        box-sizing: border-box;
+    }
+
+    /* Slightly wider job cards */
+    .job {
+        width: 95%;
+        padding: 16px;
+    }
+
+    /* Reference badge auto width */
+    .job h3 {
+        width: auto;
+        display: inline-block;
+    }
+
+    .wrapper { padding: 0 3%; }
+}
+
+/* ── Responsive: Mobile (≤ 480px) ───────────────────
+   Single column cards, all text scales down */
+@media (max-width: 480px) {
+
+    /* Single column cards on mobile */
+    .box-area {
+        grid-template-columns: 1fr;
+        grid-gap: 16px;
+        margin-top: 20px;
+    }
+
+    /* Overlay text sizing */
+    .overlay {
+        font-size: 13px;
+        padding: 0 20px;
+    }
+
+    .overlay h2,
+    .overlay h3 {
+        font-size: 0.95rem;
+        letter-spacing: 1px;
+    }
+
+    /* Intro paragraph padding */
+    .jobCards p {
+        padding: 0 12px;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* Job card sizing */
+    .job {
+        width: 97%;
+        padding: 12px;
+        margin: 12px auto 20px;
+    }
+
+    .job-desc { font-size: 0.95rem; line-height: 1.6; }
+
+    /* Aside full width, no hover scale on mobile */
+    .job aside {
+        float: none;
+        width: 100%;
+        margin: 0 0 12px 0;
+        font-size: 0.9rem;
+    }
+
+    .job aside:hover { transform: none; }
+
+    /* Accordion text */
+    .job summary {
+        font-size: 0.95rem;
+        padding: 10px 12px;
+    }
+
+    .job details ul,
+    .job details ol {
+        padding: 14px 20px;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* Reference badge */
+    .job h3 {
+        width: auto;
+        display: inline-block;
+        font-size: 0.9rem;
+    }
+
+    .job p { font-size: 0.95rem; }
+}

@@ -1,13 +1,27 @@
 <?php
+  /*
+   * jobs.php - Careers Page
+   * Displays job thumbnail cards and all current job listings
+   * loaded dynamically from the jobs table in the database.
+   * Search functionality is handled separately in search.php
+   */
   $title       = "Careers - EcoCity Co.";
   $description = "Job posting description, Essential and preferable requirements, Key responsibilities";
   $keywords    = "job vacancy, careers, job roles";
   $author      = "Nusaiba Mohammed, 104649533";
-  $pageCSS     = "";
+  $pageCSS     = "styles/jobs.css"; // External CSS - job cards, overlay transitions and accordion styles
 ?>
-<?php include 'header.inc'; ?>
-<?php include 'settings.php'; ?>
+<?php include 'header.inc'; // Outputs <!DOCTYPE>, <html>, <head>, <body> and shared nav ?>
+<?php include 'settings.php'; // Loads $host, $user, $pwd, $sql_db for DB connection ?>
+
+<!--
+  Embedded CSS - styles specific to jobs.php that are not needed globally.
+  Kept here rather than in the external sheet since they only apply to this page.
+-->
 <style>
+  /* Aside floated right inside each job card
+     displays visit requirements or relocation notes from the DB.
+     25% width leaves room for the job content on the left. */
   .job aside {
     float: right;
     width: 25%;
@@ -22,85 +36,82 @@
     font-weight: bold;
     box-shadow: 2px 5px 10px rgba(133, 255, 52, 0.7);
   }
-  .job aside:hover { transform: scale(1.1); }
- 
-  .search-bar {
-    display: flex;
-    gap: 10px;
-    margin: 1.5rem 0;
-    align-items: center;
+
+  /* Scale effect on aside hover draws the manager's
+     attention to the visit/relocation requirement */
+  .job aside:hover {
+    transform: scale(1.1);
   }
-  .search-bar input {
-    padding: 8px 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    width: 300px;
+
+  /* Search prompt banner sitting between the thumbnails
+     and job listings - guides users to search.php */
+  .search-prompt {
+    text-align: center;
+    padding: 1rem;
+    background: #f0faf0;
+    border: 1px solid #c1f0c1;
+    border-radius: 8px;
+    margin: 1rem auto;
+    width: 90%;
+    font-size: 0.95rem;
+    color: #0c5401;
   }
-  .search-bar button {
-    padding: 8px 20px;
+
+  /* Button inside the search prompt styled to match
+     the site's green brand colour */
+  .search-prompt a {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 6px 16px;
     background: #0c5401;
     color: #fff;
-    border: none;
     border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  .search-bar button:hover { background: #094001; }
-  .search-bar a {
-    font-size: 13px;
-    color: #0c5401;
     text-decoration: none;
-    padding: 8px 12px;
+    font-weight: bold;
+    font-size: 0.9rem;
   }
-  .search-bar a:hover { text-decoration: underline; }
-  .results-count {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 1rem;
-  }
-  .no-results {
-    padding: 2rem;
-    text-align: center;
-    color: #666;
-    font-size: 15px;
+
+  .search-prompt a:hover {
+    background: #094001;
   }
 </style>
- 
+
 <?php
-// DB connection
+// Connect to DB using credentials loaded from settings.php
+// die() stops execution completely if connection fails
 $conn = mysqli_connect($host, $user, $pwd, $sql_db);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
- 
-// Get search term
-$search = trim($_GET['search'] ?? '');
- 
-// Build query — search across title, and reference
-if (!empty($search)) {
-    $stmt = mysqli_prepare($conn, 
-        "SELECT * FROM jobs 
-         WHERE title LIKE ? OR reference LIKE ?
-         ORDER BY id ASC");
-    $like = "%" . $search . "%";
-    mysqli_stmt_bind_param($stmt, "ss", $like, $like);
-} else {
-    $stmt = mysqli_prepare($conn, "SELECT * FROM jobs ORDER BY id ASC");
-}
- 
+
+// Fetch ALL jobs from DB ordered by id for consistent display order
+// No search filtering here - that lives in search.php
+$stmt = mysqli_prepare($conn, "SELECT * FROM jobs ORDER BY id ASC");
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
-$jobs   = mysqli_fetch_all($result, MYSQLI_ASSOC);
-$total  = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM jobs"));
+
+// fetch_all returns every row as an associative array at once
+// stored in $jobs array for use in the foreach loop below
+$jobs = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
- 
+
 <main>
-  <!-- Job thumbnails section -->
+
+  <!-- ===== Thumbnail Cards Section =====
+       Four image cards with hover overlays linking to search.php
+       with a pre-filled keyword matching the job category -->
   <section class="jobCards">
-    <h1 class="jobsTitle" style="text-align:center; padding:0; color:#0c5401; font-style:italic;">
+
+    <!-- Inline CSS on h1 - colour and alignment specific to this heading only
+         using the site's dark green brand colour -->
+    <h1
+      class="jobsTitle"
+      style="text-align:center; padding:0; color:#0c5401; font-style:italic;"
+    >
       Jobs at Eco City Co.
     </h1>
+
+    <!-- Company introduction paragraph -->
     <p>
       At EcoCity Co., we work with councils and industry partners to deliver
       smart, sustainable urban solutions that make a real impact. We value
@@ -108,99 +119,139 @@ $total  = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM jobs"));
       opportunities to work on meaningful projects that shape the future of
       cities while supporting your professional growth.
     </p>
+
+    <!-- Card grid - CSS grid layout defined in jobs.css
+         Each card has an image and a hidden overlay that slides up on hover -->
     <div id="card-area">
       <div class="wrapper">
         <div class="box-area">
+
+          <!-- Card 1 - clicking View Jobs sends ?search=transport to search.php
+               which pre-fills the search bar and filters matching jobs -->
           <div class="box">
-            <img alt="Two professionals analysing code and data on multiple computer screens in an office environment" src="images/analyst.png">
+            <img
+              alt="Two professionals analysing code and data on multiple computer screens in an office environment"
+              src="images/analyst.png"
+            >
             <div class="overlay">
               <h2>Smart Transport Systems Analyst</h2>
               <p>Drive smarter mobility solutions for connected cities.</p>
-              <a href="jobs.php?search=transport">View Jobs</a>
+              <a href="search.php?search=transport">View Jobs</a>
             </div>
           </div>
+
+          <!-- Card 2 - pre-fills search with 'energy' on search.php -->
           <div class="box">
-            <img alt="Engineers in safety helmets reviewing plans on a construction site for infrastructure development" src="images/engineer.jpg">
+            <img
+              alt="Engineers in safety helmets reviewing plans on a construction site for infrastructure development"
+              src="images/engineer.jpg"
+            >
             <div class="overlay">
               <h3>Energy Monitoring Solutions Engineer</h3>
               <p>Power urban sustainability with innovative energy insights.</p>
-              <a href="jobs.php?search=energy">View Jobs</a>
+              <a href="search.php?search=energy">View Jobs</a>
             </div>
           </div>
+
+          <!-- Card 3 - pre-fills search with 'manager' on search.php -->
           <div class="box">
-            <img alt="Professional presenting data charts and graphs on a board during a business analysis meeting" src="images/manager.jpg">
+            <img
+              alt="Professional presenting data charts and graphs on a board during a business analysis meeting"
+              src="images/manager.jpg"
+            >
             <div class="overlay">
               <h3>Smart City Project Manager</h3>
               <p>Lead projects that transform cities for the future.</p>
-              <a href="jobs.php?search=manager">View Jobs</a>
+              <a href="search.php?search=manager">View Jobs</a>
             </div>
           </div>
+
+          <!-- Card 4 - pre-fills search with 'human resources' on search.php
+               + encodes the space as + in the URL -->
           <div class="box">
-            <img alt="Confident business consultant standing in a modern office with arms crossed" src="images/HRjob.jpg">
+            <img
+              alt="Confident business consultant standing in a modern office with arms crossed"
+              src="images/hr_job.jpg"
+            >
             <div class="overlay">
-              <h3>Human Resources & Talent Specialist</h3>
+              <h3>Human Resources &amp; Talent Specialist</h3>
               <p>Build the teams that make smart cities happen.</p>
-              <a href="jobs.php?search=human+resources">View Jobs</a>
+              <a href="search.php?search=human+resources">View Jobs</a>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   </section>
- 
+
+  <!-- ===== Current Opportunities Section =====
+       Lists all jobs fetched from DB dynamically.
+       Adding a new row to the jobs table makes it appear here automatically. -->
   <section>
     <h1 id="careers">Current Opportunities</h1>
- 
-    <!-- Search Bar -->
-    <form method="get" action="jobs.php" class="search-bar">
-      <input 
-        type="text" 
-        name="search" 
-        placeholder="Search jobs by title or reference..."
-        value="<?php echo htmlspecialchars($search); ?>">
-      <button type="submit">Search</button>
-      <?php if (!empty($search)): ?>
-        <a href="jobs.php">Clear</a>
-      <?php endif; ?>
-    </form>
- 
-    <!-- Results count -->
-    <p class="results-count">
-      <?php if (!empty($search)): ?>
-        Showing <?php echo count($jobs); ?> of <?php echo $total; ?> jobs for 
-        "<strong><?php echo htmlspecialchars($search); ?></strong>"
-      <?php else: ?>
-        Showing all <?php echo count($jobs); ?> jobs
-      <?php endif; ?>
+
+    <!-- Prompt directing users to search.php for filtered results
+         search functionality is intentionally separated to search.php -->
+    <div class="search-prompt">
+      Looking for something specific?
+      <a href="search.php">Search Jobs</a>
+    </div>
+
+    <!-- Total job count - count() counts elements in the $jobs array -->
+    <p class="results-count" style="font-size:14px; color:#666; margin: 0.5rem 1rem;">
+      Showing all <?php echo count($jobs); ?> jobs
     </p>
- 
+
     <?php if (empty($jobs)): ?>
-      <p class="no-results">
-        No jobs found for "<?php echo htmlspecialchars($search); ?>". 
-        Try a different keyword or <a href="jobs.php">view all jobs</a>.
+      <!-- Shown if the jobs table exists but has no records yet -->
+      <p style="text-align:center; color:#666; padding:2rem;">
+        No job listings available at this time. Please check back soon.
       </p>
+
     <?php else: ?>
- 
       <?php foreach ($jobs as $job): ?>
+      <!--
+        foreach loops through every row in $jobs array
+        Each iteration renders one complete job card using
+        the same HTML template - data changes, structure stays the same
+      -->
       <section class="job" id="<?php echo htmlspecialchars($job['reference']); ?>">
- 
+        <!--
+          id set to the job reference e.g. id="SC123"
+          htmlspecialchars() prevents XSS on all DB output
+        -->
+
+        <!-- Aside floated right - visit_requirement or relocation note from DB -->
         <aside>
           <p><?php echo htmlspecialchars($job['additional_info']); ?></p>
         </aside>
- 
+
+        <!-- Reference number and job title pulled from DB columns -->
         <h2>Reference: <?php echo htmlspecialchars($job['reference']); ?></h2>
         <h3><?php echo htmlspecialchars($job['title']); ?></h3>
- 
+
+        <!-- Description from DB - nl2br() converts \n line breaks stored
+             in the DB text into HTML <br> tags so they render correctly
+             htmlspecialchars() applied first to sanitise before nl2br converts -->
         <p class="job-desc">
-          <?php 
-            // preserve line breaks from DB
-            echo nl2br(htmlspecialchars($job['description'])); 
-          ?>
+          <?php echo nl2br(htmlspecialchars($job['description'])); ?>
         </p>
- 
+
+        <!-- Salary range and reporting line from DB -->
         <p><strong>Salary:</strong> <?php echo htmlspecialchars($job['salary_range']); ?></p>
         <p><strong>Reports to:</strong> <?php echo htmlspecialchars($job['reports_to']); ?></p>
- 
+
+        <!--
+          HTML5 <details> and <summary> create native expandable sections
+          No JavaScript needed - the browser handles open/close behaviour built in
+          Each section's content is stored as newline-separated text in the DB
+          explode("\n", ...) splits that text into an array of individual items
+          foreach then renders each item as its own <li>
+          if (trim($item)) skips any accidental empty lines in the DB text
+        -->
+
+        <!-- Key responsibilities rendered as unordered bullet list -->
         <details>
           <summary>Key Responsibilities</summary>
           <ul>
@@ -211,7 +262,9 @@ $total  = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM jobs"));
             <?php endforeach; ?>
           </ul>
         </details>
- 
+
+        <!-- Essential requirements rendered as ordered numbered list
+             ol used deliberately to match the numbered format from Part 1 -->
         <details>
           <summary>Essential Requirements</summary>
           <ol>
@@ -222,7 +275,8 @@ $total  = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM jobs"));
             <?php endforeach; ?>
           </ol>
         </details>
- 
+
+        <!-- Preferable skills rendered as unordered bullet list -->
         <details>
           <summary>Preferable Skills</summary>
           <ul>
@@ -233,15 +287,15 @@ $total  = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM jobs"));
             <?php endforeach; ?>
           </ul>
         </details>
- 
+
       </section>
       <?php endforeach; ?>
- 
+
     <?php endif; ?>
   </section>
 </main>
- 
-<?php 
-  mysqli_close($conn);
-  include 'footer.inc'; 
+
+<?php
+  mysqli_close($conn); // Explicitly close DB connection to free resources
+  include 'footer.inc'; // Outputs </body> and </html>
 ?>

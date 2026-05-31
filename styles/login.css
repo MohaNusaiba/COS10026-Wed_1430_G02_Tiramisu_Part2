@@ -1,0 +1,20 @@
+/*
+ * login.css
+ * External stylesheet for login.php.
+ * Most login styles live in the embedded <style> block in login.php
+ * since login is a standalone page with a unique full-page layout.
+ * This file provides any additional overrides if needed.
+ */
+
+/* ── Login Page Overrides ────────────────────────────
+   Ensures the login page body is not affected by
+   any global styles from base.css that might interfere
+   with the centered split-panel layout */
+body {
+    background-image: none;     /* override the base.css background image */
+    background: #f1fce3;        /* soft green matching site eco theme */
+}
+
+.sub {
+    color: rgb(0, 62, 10);
+}

@@ -1,0 +1,44 @@
+/*
+ * base.css
+ * Global reset, font, colour variables and body background.
+ * Loaded on every page via header.inc.
+ * All other stylesheets build on top of these foundations.
+ */
+
+/* ── Reset ──────────────────────────────────────────
+   Normalises browser default spacing and box model
+   so layout behaves consistently across all browsers */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Global Font ─────────────────────────────────────
+   Times New Roman applied site-wide as per design spec
+   sans-serif is the fallback if Times New Roman is unavailable */
+* {
+    font-family: "Times New Roman", sans-serif;
+}
+
+/* ── Body Background ─────────────────────────────────
+   Background image applied as required by assignment feedback
+   Note: linear gradients do NOT satisfy this requirement
+   background-attachment: fixed creates a subtle parallax effect */
+body {
+    background-image: url("images/background_image.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #222;
+}
+
+/* ── Heading Scale ───────────────────────────────────
+   Base heading sizes used across all pages
+   Individual pages override these where needed */
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 1rem;   }

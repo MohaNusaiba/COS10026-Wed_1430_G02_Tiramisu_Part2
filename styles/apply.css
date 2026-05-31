@@ -1,0 +1,225 @@
+/*
+ * apply.css
+ * Page-specific styles for apply.php.
+ * Handles the form card layout, fieldset sections,
+ * input styling and button design.
+ * Works together with the embedded <style> block
+ * and inline styles in apply.php.
+ */
+
+/* ── Page Layout ─────────────────────────────────────
+   Centers the form card horizontally with breathing room */
+main {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+/* Constrains article width for comfortable reading */
+article {
+    width: 100%;
+    max-width: 680px;
+}
+
+/* ── Form Card ───────────────────────────────────────
+   White card with shadow lifts the form off the background
+   border adds subtle blue edge matching brand colour */
+form {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(5, 54, 143, 0.10);
+    padding: 2rem;
+    border: 1px solid #e0eaff;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+/* ── Fieldset Section Cards ──────────────────────────
+   Each fieldset is a visual card with a blue left border accent.
+   Hover transitions the border to green for interactivity. */
+fieldset {
+    border: none;
+    border-left: 4px solid #05368f;
+    background: #f8fbff;
+    border-radius: 0 10px 10px 0;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.2s ease;
+}
+
+/* Left border turns green on hover to show section is interactive */
+fieldset:hover {
+    border-left-color: #22c55e;
+}
+
+/* Nested fieldset for gender - lighter style shows it
+   is a sub-section of Personal Information */
+fieldset fieldset {
+    border-left: 2px solid #b3c6f0;
+    background: #ffffff;
+    border-radius: 0 8px 8px 0;
+    padding: 1rem;
+    margin-top: 0.75rem;
+}
+
+/* ── Legend ──────────────────────────────────────────
+   Small uppercase section title in brand blue */
+legend {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #05368f;
+    padding: 0 8px;
+    background: #f8fbff;
+    border-radius: 4px;
+}
+
+/* ── Field Rows ──────────────────────────────────────
+   Two column grid - label on left, input on right
+   Consistent alignment across all form fields */
+fieldset p {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+fieldset p:last-child { margin-bottom: 0; }
+
+/* ── Labels ──────────────────────────────────────────
+   Semi-bold for clear field identification */
+label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1a2e5a;
+}
+
+/* ── Text Inputs and Select ──────────────────────────
+   Consistent styling - border transitions on hover and focus
+   give clear visual feedback to the user */
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #c5d5f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #1a2e5a;
+    background: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Subtle hover border colour change */
+input[type="text"]:hover,
+select:hover,
+textarea:hover {
+    border-color: #7fa8e0;
+}
+
+/* Focus ring via box-shadow - softer than default outline */
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #05368f;
+    box-shadow: 0 0 0 3px rgba(5, 54, 143, 0.10);
+}
+
+/* ── Select Dropdown ─────────────────────────────────
+   Custom SVG arrow replaces default browser arrow
+   for consistent cross-browser appearance */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2305368f' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+/* ── Textarea ────────────────────────────────────────
+   Vertical resize only prevents layout breaking
+   grid-column spans full width overriding the two-column grid */
+textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+    grid-column: 1 / -1;
+}
+
+/* ── Gender and Skills Rows ──────────────────────────
+   These sections use flex instead of grid since
+   radio/checkbox inputs sit inline with their labels */
+fieldset:nth-of-type(2) fieldset p,
+fieldset:nth-of-type(5) p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    grid-template-columns: unset;
+    margin-bottom: 0.6rem;
+}
+
+/* Skills textarea spans full width overriding flex parent */
+fieldset:nth-of-type(5) p:last-child {
+    display: block;
+    margin-top: 1rem;
+}
+
+fieldset:nth-of-type(5) p:last-child textarea {
+    width: 100%;
+}
+
+/* ── Radio and Checkbox ──────────────────────────────
+   accent-color applies brand blue to native appearance */
+input[type="radio"],
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #05368f;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* ── Reset Button ────────────────────────────────────
+   Subtle grey so it does not compete with the primary submit button
+   Submit button is styled with inline CSS in apply.php */
+form > input[type="reset"] {
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #f1f5f9;
+    color: #475569;
+    transition: background 0.2s ease;
+    margin-top: 0.5rem;
+}
+
+form > input[type="reset"]:hover {
+    background: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+/* ── Placeholder Text ────────────────────────────────
+   Muted grey so placeholder does not compete with entered content */
+::placeholder {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+/* ── Responsive: Mobile (≤ 600px) ───────────────────
+   Stack label above input since two-column grid is too cramped */
+@media (max-width: 600px) {
+    fieldset p {
+        grid-template-columns: 1fr;
+    }
+
+    form {
+        padding: 1.25rem;
+    }
+}

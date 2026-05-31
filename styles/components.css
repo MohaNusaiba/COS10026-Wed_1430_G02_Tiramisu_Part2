@@ -1,0 +1,121 @@
+/*
+ * components.css
+ * Reusable UI components shared across multiple pages.
+ * Includes tables, buttons, contribution tags and fun facts table.
+ * Loaded on every public page via header.inc alongside layout.css.
+ */
+
+/* ── Fun Facts Table ─────────────────────────────────
+   Used on about.php to display member fun facts.
+   border-radius + overflow: hidden clips the corners of the table. */
+.fun-facts {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Caption sits above the table in brand blue */
+.fun-facts caption {
+    caption-side: top;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #05368f;
+}
+
+/* Cell padding and border for all cells */
+.fun-facts th,
+.fun-facts td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Header row - brand blue background with white text */
+.fun-facts th {
+    background: #05368f;
+    color: white;
+}
+
+/* Alternating row background for readability */
+.fun-facts tbody tr:nth-child(even) {
+    background-color: #f5f8ff;
+}
+
+/* Row hover - light blue highlight */
+.fun-facts tbody tr:hover {
+    background-color: #cfe2ff;
+    transition: background-color 0.25s ease;
+}
+
+/* Emphasise member name on row hover */
+.fun-facts tbody tr:hover td:first-child {
+    font-weight: bold;
+    color: #05368f;
+}
+
+/* ── Contribution Tags ───────────────────────────────
+   Pill-shaped tags used in about.php member contribution sections.
+   Each tag represents one contribution item from the DB. */
+.contrib {
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
+
+/* Base tag style - inline pill with white text */
+.contrib span {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 4px 6px 0 0;
+    border-radius: 12px;
+    font-size: 13px;
+    color: #fff;
+    background: #05368f;
+}
+
+/* Alternating green for every 1st and 2nd tag */
+.contrib span:nth-child(1n),
+.contrib span:nth-child(2n) {
+    background: #113f01;
+    color: rgb(255, 255, 255);
+}
+
+/* Blue for every 3rd tag - creates visual variety */
+.contrib span:nth-child(3n) {
+    background: #2a57aa;
+}
+
+/* ── Responsive: Mobile (≤ 480px) ───────────────────
+   Smaller tag text and tighter padding on small screens */
+@media (max-width: 480px) {
+
+    /* Headings scale down gracefully */
+    h1 { font-size: 1.4rem; }
+    h2 { font-size: 1.2rem; }
+    h3 { font-size: 1.1rem; }
+    h4 { font-size: 1rem;   }
+
+    /* Fun facts table allows horizontal scroll on mobile
+       rather than breaking the layout */
+    .fun-facts {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Slightly smaller table text */
+    .fun-facts th,
+    .fun-facts td {
+        font-size: 0.9rem;
+        padding: 8px 6px;
+    }
+
+    /* Smaller contribution tags on mobile */
+    .contrib span {
+        font-size: 0.85rem;
+        padding: 4px 8px;
+    }
+}

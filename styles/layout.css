@@ -1,0 +1,169 @@
+/*
+ * layout.css
+ * Shared structural styles for the header, navbar and footer.
+ * Loaded on every public page via header.inc.
+ * Does not include page-specific layout - those live in page CSS files.
+ */
+
+/* ── Header & Navbar ─────────────────────────────────
+   Flexbox row with logo on the left and links pushed right
+   Brand blue gradient background matching site colour scheme */
+header .menu {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to top, #05368f, #02173d);
+    padding: 0 20px;
+    height: 60px;
+}
+
+/* Logo image - fixed height, block removes inline spacing gap */
+#logo-link img {
+    height: 50px;
+    display: block;
+}
+
+/* Links container - margin-left: auto pushes it to the right of the header
+   flex keeps links in a row with consistent gap between them */
+.navlinks {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+/* Individual nav links - white text with smooth transition on hover */
+.navlink {
+    color: white;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover effect - green gradient matching brand accent colour */
+.navlink:hover {
+    color: black;
+    background: linear-gradient(to top, #05368f, #22ff00);
+    font-weight: bold;
+}
+
+/* ── Footer ──────────────────────────────────────────
+   Dark blue gradient footer with centred content
+   border-top provides subtle separation from page content */
+footer {
+    background: linear-gradient(to bottom, #1e3c72, #02173d);
+    padding: 5px 0;
+    text-align: center;
+    border-top: 1px solid rgb(220, 220, 220);
+}
+
+/* Footer heading and paragraph - white text with letter spacing */
+footer h2,
+footer p {
+    margin-bottom: 0.9em;
+    margin-left: 2.5em;
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Footer links - inline-flex aligns icon and text vertically
+   white pill shape with smooth hover transition */
+footer nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 8px 5.5px;
+    padding: 0.4em 0.8em;
+    color: rgb(0, 0, 0);
+    background-color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+/* Footer link icons - fixed size for consistent alignment */
+footer nav a img {
+    width: 16px;
+    height: 16px;
+}
+
+/* Footer link hover - green gradient matching navbar hover */
+footer nav a:hover {
+    background: linear-gradient(to top, #05368f, #22ff00);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+/* ── Responsive: Tablet (≤ 768px) ───────────────────
+   Navbar wraps to two lines on smaller screens */
+@media (max-width: 768px) {
+
+    /* Allow navbar to wrap when screen is too narrow */
+    header .menu {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 10px 16px;
+        gap: 8px;
+    }
+
+    /* Links wrap to fill full width below the logo */
+    .navlinks {
+        margin-left: 0;
+        flex-wrap: wrap;
+        gap: 4px;
+        width: 100%;
+    }
+
+    /* Slightly smaller link text on tablet */
+    .navlink {
+        padding: 0.4em 0.7em;
+        font-size: 0.9em;
+    }
+
+    /* Footer links wrap and centre on smaller screens */
+    footer nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    footer nav a {
+        margin: 0;
+    }
+}
+
+/* ── Responsive: Mobile (≤ 480px) ───────────────────
+   Nav stacks vertically on very small screens */
+@media (max-width: 480px) {
+
+    /* Slightly smaller logo on mobile */
+    #logo-link img {
+        height: 38px;
+    }
+
+    /* Stack links vertically - each takes full width */
+    .navlinks {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navlink {
+        width: 100%;
+        padding: 0.5em 0.6em;
+        font-size: 1rem;
+    }
+
+    /* Footer heading left-aligned on mobile */
+    footer h2 {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    /* Footer link text size */
+    footer nav a {
+        font-size: 0.95rem;
+    }
+}

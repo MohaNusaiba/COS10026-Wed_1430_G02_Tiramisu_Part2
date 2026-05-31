@@ -1,0 +1,160 @@
+/*
+ * about.css
+ * Page-specific styles for about.php.
+ * Handles the flag animation, acknowledgment section,
+ * group details box and member definition list.
+ * Works alongside the embedded <style> block in about.php.
+ */
+
+/* ── Flag Image ──────────────────────────────────────
+   Starts invisible and slightly shifted down (translateY)
+   Animation brings it to full opacity and original position
+   creating a smooth fade-in-up effect on page load */
+#flag {
+    max-width: 100%;
+    height: auto;
+    width: 600px;
+    margin: 2em 0 0 20em;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 1.5s ease forwards;
+}
+
+/* Keyframe animation - transitions from invisible/shifted to visible/normal */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Acknowledgment Heading ──────────────────────────
+   Centred h1 with bottom border acting as a section divider */
+.acknowledge {
+    text-align: center;
+    padding: 0.2em 0 0.2em 0;
+    border-bottom: 1px solid black;
+}
+
+/* ── Acknowledgment Statement Aside ─────────────────
+   Light blue background box containing the country acknowledgment text
+   Full width with generous padding and rounded corners */
+#statement {
+    background-color: #c1d9f8;
+    color: rgb(0, 0, 0);
+    width: 100%;
+    padding: 0.2em 2.0em 0.5em 2.0em;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* ── Group Details Section Box ───────────────────────
+   White-blue card containing all group info, contributions and fun facts
+   Centred on page with shadow for depth */
+.group-simple {
+    background: #f8fbff;
+    padding: 15px;
+    margin: 15px auto;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    color: #222;
+}
+
+/* Section subheadings in brand blue */
+.group-simple h3 {
+    color: #05368f;
+    margin-bottom: 5px;
+}
+
+.group-simple h4 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* List indentation inside the group section */
+.group-simple ul {
+    padding-left: 20px;
+}
+
+/* ── Unordered List ──────────────────────────────────
+   Square bullet points for class details list */
+.unorder {
+    list-style-type: square;
+    list-style-position: inside;
+    padding-bottom: 0.5em;
+}
+
+/* ── Member Definition List ──────────────────────────
+   dt = member name and ID (bold blue)
+   dd = contributions, quote and fun facts (white card with left border) */
+.members dt {
+    font-weight: bold;
+    margin-top: 12px;
+    color: #05368f;
+}
+
+.members dd {
+    margin-left: 0;
+    padding: 10px;
+    background: #ffffff;
+    border-left: 3px solid #05368f;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+/* ── Responsive: Tablet (≤ 768px) ───────────────────
+   Widen the group section and centre the flag */
+@media (max-width: 768px) {
+
+    /* Centre flag and use more screen width */
+    #flag {
+        display: block;
+        margin: 1.5em auto 0;
+        width: 90%;
+    }
+
+    /* Widen group section box */
+    .group-simple {
+        width: 94%;
+        padding: 12px;
+    }
+}
+
+/* ── Responsive: Mobile (≤ 480px) ───────────────────
+   Full width flag and tighter spacing on small screens */
+@media (max-width: 480px) {
+
+    /* Full width flag on mobile */
+    #flag {
+        width: 100%;
+        margin-top: 1em;
+    }
+
+    /* Tighter aside padding */
+    #statement {
+        padding: 0 1em 0.5em;
+        border-radius: 6px;
+    }
+
+    /* Nearly full width group section */
+    .group-simple {
+        width: 97%;
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    /* Acknowledgment text size */
+    #statement p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* Member list text sizes */
+    .members dt { font-size: 1rem; }
+    .members dd {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        padding: 8px;
+    }
+}
