@@ -213,41 +213,6 @@
         <figcaption>G02 Team on Coding Interview Day</figcaption>
       </figure>
 
-      <!-- Fun Facts Table with caption, thead and tbody for semantic structure -->
-      <table class="fun-facts">
-        <caption>Fun Facts About Group Members</caption>
-        <!-- Table headers describing each column -->
-        <thead>
-          <tr>
-            <th>Member</th>
-            <th>Interest Area</th>
-            <th>Coding Snack</th>
-            <th>Dream Travel Destination</th>
-          </tr>
-        </thead>
-        <!-- Row data for each member -->
-        <tbody>
-          <tr>
-            <td>Nusaiba Mohammed</td>
-            <td>Cloud &amp; SDN Networking Security, SOC roles</td>
-            <td>Loukamades</td>
-            <td>Norway or Switzerland</td>
-          </tr>
-          <tr>
-            <td>Ruby Telford</td>
-            <td>Creating Personalised Things for Friends and Family</td>
-            <td>Pretzels</td>
-            <td>Europe</td>
-          </tr>
-          <tr>
-            <td>Harpreet Kour</td>
-            <td>Travelling</td>
-            <td>Egg wrap</td>
-            <td>India</td>
-          </tr>
-        </tbody>
-      </table>
-
     </section>
   </article>
 </main>
