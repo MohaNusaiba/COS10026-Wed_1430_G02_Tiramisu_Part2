@@ -20,6 +20,9 @@ SET time_zone = "+00:00";
 -- Database: `ecocityg02`
 --
 
+CREATE DATABASE IF NOT EXISTS `ecocityg02`;
+USE `ecocityg02`;
+
 -- --------------------------------------------------------
 -- Drop existing tables before recreating
 -- ORDER MATTERS - drop tables with foreign key dependencies first
@@ -47,6 +50,13 @@ CREATE TABLE `about` (
   `coding_snack` varchar(100) DEFAULT NULL,
   `dream_travel` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Primary key and auto increment set before INSERT
+ALTER TABLE `about`
+  ADD PRIMARY KEY (`member_id`);
+
+ALTER TABLE `about`
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 INSERT INTO `about` (`member_id`, `member_name`, `student_id`, `project1_contribution`, `project2_contribution`, `quote`, `quote_translation`, `interest_area`, `coding_snack`, `dream_travel`) VALUES
 (1, 'Nusaiba Mohammed', '104649533', 'Completed jobs.html, about.html, styles.css, Jira workspace creation, logo creation, GitHub technical support, navbar and footer setup.', 'PHP include architecture, header.inc variable structure, dynamic jobs.php and search.php with DB integration, secure login portal with bcrypt hashing and DB-side lockout, manage.php EOI dashboard, eoi_detail.php, logout and session timeout, CSS restructure into base/layout/components/page files, WAVE accessibility fixes.', 'অল্প বিদ্যা ভয়ঙ্করী', 'A little learning is a dangerous thing.', 'Cloud & SDN Networking Security, SOC roles', 'Loukamades', 'Norway or Switzerland'),
@@ -77,11 +87,29 @@ CREATE TABLE `eoi` (
   `skill_problem` tinyint(1) DEFAULT 0,
   `skill_teamwork` tinyint(1) DEFAULT 0,
   `other_skills` text DEFAULT NULL,
-  `Status` enum('New','Current','Final') DEFAULT 'New'
+  `status` enum('New','Current','Final') DEFAULT 'New'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- eoi table intentionally left empty
--- records are inserted via the apply.php form submission
+-- Primary key and auto increment set before INSERT
+ALTER TABLE `eoi`
+  ADD PRIMARY KEY (`EOInumber`);
+
+ALTER TABLE `eoi`
+  MODIFY `EOInumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+-- Demo EOI data for presentation purposes
+-- EOInumbers 1-6 pre-filled, new apply.php submissions start from 7
+INSERT INTO `eoi` (`EOInumber`, `job_ref_num`, `first_name`, `last_name`, `dob`, `gender`, `street_address`, `suburb_town`, `state`, `postcode`, `email`, `phone`, `skill_iot`, `skill_data`, `skill_urban`, `skill_renewable`, `skill_problem`, `skill_teamwork`, `other_skills`, `status`) VALUES
+(1, 'SC123', 'Ruby', 'Telford', '15/03/1998', 'female', '12 Collins Street', 'Melbourne', 'VIC', '3000', 'ruby.telford@gmail.com', '0412345678', 1, 1, 0, 0, 1, 1, 'Experience with traffic flow modelling', 'New'),
+(2, 'SC123', 'James', 'Wong', '22/07/1995', 'male', '45 Swanston Street', 'Carlton', 'VIC', '3053', 'james.wong@outlook.com', '0398765432', 1, 1, 0, 0, 1, 0, '', 'Current'),
+(3, 'EN456', 'Sarah', 'Johnson', '08/11/1992', 'female', '78 Chapel Street', 'Prahran', 'VIC', '3181', 'sarah.j@email.com', '0387654321', 0, 1, 0, 1, 1, 1, 'Solar panel installation experience', 'New'),
+(4, 'EN456', 'Michael', 'Nguyen', '30/04/1990', 'male', '23 Bridge Road', 'Richmond', 'VIC', '3121', 'mnguyen@gmail.com', '0423456789', 1, 0, 0, 1, 0, 1, '', 'Final'),
+(5, 'PM789', 'Priya', 'Sharma', '14/09/1988', 'female', '56 St Kilda Road', 'St Kilda', 'VIC', '3182', 'priya.sharma@work.com', '0411223344', 0, 1, 1, 0, 1, 1, 'PMP certified, Agile experience', 'Current'),
+(6, 'HR654', 'Daniel', 'Smith', '25/01/1997', 'male', '90 Lygon Street', 'Brunswick', 'VIC', '3056', 'dan.smith@yahoo.com', '0455667788', 0, 0, 0, 0, 1, 1, 'Recruitment software experience', 'New');
+
+-- Update AUTO_INCREMENT to start after demo data
+ALTER TABLE `eoi`
+  MODIFY `EOInumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 -- --------------------------------------------------------
 -- Table structure for table `jobs`
@@ -100,11 +128,21 @@ CREATE TABLE `jobs` (
   `preferable_skills` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Primary key and auto increment set before INSERT
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `jobs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 INSERT INTO `jobs` (`id`, `reference`, `title`, `description`, `additional_info`, `salary_range`, `reports_to`, `responsibilities`, `requirements`, `preferable_skills`) VALUES
 (1, 'SC123', 'Smart Transport Systems Analyst', 'Design and optimise intelligent transport systems using real-time data and digital platforms to improve urban mobility outcomes.\nWe welcome and encourage applications from Aboriginal and Torres Strait Islander peoples, as well as individuals from all cultural and diverse backgrounds.', 'Quaterly: May require site visits and collaboration with local councils.', '$95,000 – $115,000 AUD', 'Senior Infrastructure Manager', 'Analyse transport data from IoT sensors and traffic systems\nDevelop models to improve traffic flow and reduce congestion\nCollaborate with councils on smart mobility strategies\nSupport deployment of integrated transport platforms', 'Bachelor\'s degree in Engineering, IT, or related field\nExperience with data analytics and transport systems\nProficiency in Python or similar tools', 'Experience in smart city or government projects\nKnowledge of GIS platforms\nStrong stakeholder communication skills'),
 (2, 'EN456', 'Energy Monitoring Solutions Engineer', 'Develop and implement digital energy monitoring platforms to enhance sustainability and efficiency across urban infrastructure.\nWe welcome and encourage applications from Aboriginal and Torres Strait Islander peoples, as well as individuals from all cultural and diverse backgrounds.', 'Relocation: Company accommodation available at site.', '$105,000 – $130,000 AUD', 'Head of Smart Energy Solutions', 'Design energy monitoring dashboards and reporting tools\nIntegrate IoT devices for real-time energy tracking\nWork with stakeholders to identify optimisation opportunities\nEnsure compliance with energy regulations', 'Degree in Electrical Engineering or similar\nExperience with IoT platforms and cloud systems\nStrong analytical skills', 'Renewable energy project experience\nData visualisation tools knowledge\nUnderstanding of smart grids'),
 (3, 'PM789', 'Smart City Project Manager', 'Lead and coordinate smart city initiatives, ensuring successful delivery across multiple stakeholders.\nWe welcome and encourage applications from Aboriginal and Torres Strait Islander peoples, as well as individuals from all cultural and diverse backgrounds.', 'Paid certification and promotion opportunities open.', '$110,000 – $125,000 AUD', 'Director of Operations', 'Manage project timelines, budgets, and risks\nCoordinate cross-functional teams\nLiaise with councils and partners\nEnsure project governance standards are met', 'Degree in Project Management or related field\nExperience managing complex projects\nStrong leadership skills', 'PRINCE2 or PMP certification\nExperience in infrastructure or government projects\nAgile methodology knowledge'),
 (4, 'HR654', 'Human Resources & Talent Specialist', 'Support recruitment, employee engagement, and HR operations in a dynamic consultancy environment.\nWe welcome and encourage applications from Aboriginal and Torres Strait Islander peoples, as well as individuals from all cultural and diverse backgrounds.', 'This position is also open to entry level Legal Assistants.', '$85,000 – $100,000 AUD', 'Head of People & Culture', 'Manage recruitment and onboarding processes\nDevelop engagement and training programs\nEnsure HR compliance and policies\nSupport performance management', 'Degree in Human Resources or related field\nExperience in recruitment and employee relations\nStrong interpersonal skills', 'Experience in consultancy or tech sector\nKnowledge of HR systems\nInterest in workplace culture development');
+
+ALTER TABLE `jobs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 -- --------------------------------------------------------
 -- Table structure for table `user`
@@ -117,39 +155,14 @@ CREATE TABLE `user` (
   `locked_until` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Primary key set before INSERT
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`username`);
+
 -- Admin account - password is bcrypt hash of "admin"
 -- login_attempts reset to 0, locked_until NULL = not locked
 INSERT INTO `user` (`username`, `password`, `login_attempts`, `locked_until`) VALUES
 ('admin', '$2y$10$jSnQlU6CuuiVkqTF5Nj3y.fq/7U7.1Zdl/4lRhyHrrV7ZD2qM0HMW', 0, NULL);
-
---
--- Indexes for dumped tables
---
-
-ALTER TABLE `about`
-  ADD PRIMARY KEY (`member_id`);
-
-ALTER TABLE `eoi`
-  ADD PRIMARY KEY (`EOInumber`);
-
-ALTER TABLE `jobs`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`username`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
-ALTER TABLE `about`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
-ALTER TABLE `eoi`
-  MODIFY `EOInumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
-ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 COMMIT;
 
